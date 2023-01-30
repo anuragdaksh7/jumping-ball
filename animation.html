@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		#ball {
+	position: relative;
+	top: 100px;
+	left: 100px;
+	width: 50px;
+	height: 50px;
+	border-color: #000000;
+	border-width: 3px;
+	background-color: #ff2200;
+	border-radius: 100000px;
+}
+
+#details {
+	margin-top: 2%;
+	margin-left: 2%;
+    background-color: rgba(0, 0, 0, 0.25);
+	width: fit-content;
+	padding: 20px;
+    box-shadow: 0px 0px 30px 1px rgb(0 0 0 / 99%);
+    backdrop-filter: blur(10px);
+	border-radius: 10px;
+}
+
+#air {
+	width: 200px;
+	height: 30px;
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	padding-inline-start: 20px;
+	margin-bottom: 5px;
+	border-radius: 10px;
+	border: none;
+}
+
+#sub {
+	width: 220px;
+	height: 30px;
+	font-size: 20px;
+	color: #777;
+	display: flex;
+	justify-content: center;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border-radius: 10px;
+	border: none;
+}
+
+#grav {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	width: 200px;
+	height: 30px;
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	padding-inline-start: 20px;
+	border-radius: 10px;
+	border: none;
+}
+#e {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	width: 200px;
+	height: 30px;
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	padding-inline-start: 20px;
+	border-radius: 10px;
+	border: none;
+}
+
+body {
+	background-color: #12a0ff;
+}
+	</style>
+</head>
+<body>
+	<div id = "details">
+		<input id="air" type="number" name="hmm" placeholder="airdrag">
+		<input id="grav" type="number" name="hmmm" placeholder="gravity">
+		<input id="e" type="number" name="hmmmm" placeholder="restitution const.">
+		<!--<button id="sub" >submit</button>-->
+	</div>
+	<div id="ball" >
+		<p></p>
+	</div>
+	<script type="text/javascript" defer>
+		document.getElementById("ball").style.left = String(window.innerWidth*0.5)+"px";
+document.getElementById("ball").style.top = "100px";
+grav = 0.2;
+vely = 0;
+ar = 0;
+e_ = 0;
+var h = window.innerHeight;
+
+
+setInterval(function updateBall(){
+	
+	ball = document.getElementById("ball");
+	air = document.getElementById("air").value;
+	grv = document.getElementById("grav").value;
+	e = document.getElementById("e").value;
+	if (air != ""){
+		ar = Number(air)/20;
+	} else {
+		ar = 0;
+	}
+	if (grv != ""){
+		grav = Number(grv)/10;
+	}
+	if (e != ""){
+		e_ = Number(e)/20
+	} else {
+		e_ = 0;
+	}
+	r = ball.style.width.slice(0,-2);
+	r = Number(r);
+	l = (ball.style.top).slice(0,-2);
+	l = Number(l);
+	if (l>400){
+		vely *= -1;
+		//console.log(l,vely);
+		vely+=grav;
+		vely = (1-e_)*vely;
+	}
+	if (vely>0){
+		vely -= ar;
+	} else if(vely<0){
+		vely += ar;
+	}
+	l+=vely;
+	vely += grav;
+	ball.style.top = String(l)+"px";
+	//ball.style.left = String(k)+"px";
+},Number(1000/120));
+
+document.addEventListener("keydown",(e)=>{
+	ball = document.getElementById("ball");
+	k = (ball.style.left).slice(0,-2);
+	k = Number(k);
+	l = (ball.style.top).slice(0,-2);
+	l = Number(l);
+	key = e.key;
+	
+	if (key == "w"){
+		l-=5;
+	}
+	if (key == "s"){
+		l+=5;
+	}
+	if (key == "a"){
+		k-=5;
+	}
+	if (key == "d"){
+		k+=5;
+	}
+	
+	//console.log(k,l);
+	ball.style.top = String(l)+"px";
+	ball.style.left = String(k)+"px";
+
+});
+	</script>
+</body>
+</html>
